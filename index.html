@@ -2,269 +2,114 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Aspire</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
 :root {
   --bg: #FAF7F2;
   --card: #FFFFFF;
-  --card2: #FFF8F0;
   --gold: #B8763A;
   --gold-light: #F5E6D3;
   --text: #1A0F0A;
   --muted: #8B7355;
   --border: #E8D5B8;
-  --border-gold: #B8763A;
   --btn: #2C1A0E;
-  --btn-text: #FAF7F2;
-  --kaspi-red: #E8303A;
-  --tag-bg: #FFF3E6;
-  --tag-text: #B8763A;
+  --kaspi: #E8303A;
 }
-* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+* { margin:0; padding:0; box-sizing:border-box; }
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
-  min-height: 100vh;
-  padding-bottom: 30px;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  padding-bottom: 40px;
 }
 .page { display:none; }
 .page.active { display:block; }
 
 /* ШАПКА */
 .hero {
-  background: linear-gradient(135deg, #2C1A0E 0%, #4A2C14 100%);
+  background: linear-gradient(135deg, #2C1A0E, #4A2C14);
   padding: 24px 16px 20px;
-  position: relative;
-  overflow: hidden;
+  text-align: center;
 }
-.hero::before {
-  content: '';
-  position: absolute;
-  top: -30px; right: -30px;
-  width: 120px; height: 120px;
-  border-radius: 50%;
-  background: rgba(196,149,106,0.15);
-}
-.hero-brand {
-  font-size: 10px;
-  color: var(--gold);
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  margin-bottom: 8px;
-  position: relative;
-}
-.hero-title {
-  font-size: 28px;
-  font-weight: 800;
-  color: #FAF7F2;
-  line-height: 1.15;
-  margin-bottom: 6px;
-  position: relative;
-}
-.hero-sub {
-  font-size: 12px;
-  color: rgba(245,236,216,0.65);
-  line-height: 1.5;
-  position: relative;
-}
+.hero-brand { font-size:10px; color:var(--gold); letter-spacing:3px; text-transform:uppercase; margin-bottom:8px; }
+.hero-title { font-size:32px; font-weight:800; color:#FAF7F2; line-height:1.15; margin-bottom:6px; }
+.hero-sub { font-size:12px; color:rgba(245,236,216,0.65); line-height:1.5; }
 
-/* ФОТО БЛОК — здесь будут ваши фото */
-/* МЕНЯЙ: замени src на ссылки на ваши фото */
-.photos-row {
-  display: flex;
-  gap: 8px;
-  padding: 12px 12px 0;
-}
-.photo-item {
-  flex: 1;
-  aspect-ratio: 1;
-  border-radius: 12px;
-  overflow: hidden;
-  background: var(--gold-light);
-}
-.photo-item img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  /* МЕНЯЙ: добавь реальные фото через src="" */
-}
-.photo-placeholder {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: 10px;
-  color: var(--muted);
-  gap: 4px;
-}
-.photo-placeholder-icon { font-size: 24px; opacity: 0.4; }
-
-/* СТАТИСТИКА */
 .stats-bar {
   background: var(--card);
-  margin: 10px 12px 0;
+  margin: 10px 12px;
   border-radius: 12px;
   padding: 12px 16px;
   border: 0.5px solid var(--border);
+  text-align: center;
 }
-.stats-num {
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--gold);
-  margin-bottom: 2px;
-}
-.stats-label {
-  font-size: 10px;
-  color: var(--muted);
-}
+.stats-num { font-size:12px; font-weight:700; color:var(--gold); margin-bottom:2px; }
+.stats-label { font-size:10px; color:var(--muted); }
 
-/* СЕКЦИИ */
 .section-header {
-  padding: 18px 16px 10px;
+  padding: 16px 16px 10px;
   display: flex;
   align-items: center;
   gap: 8px;
 }
-.section-label {
-  font-size: 10px;
-  font-weight: 700;
-  color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-}
-.section-line {
-  flex: 1;
-  height: 0.5px;
-  background: var(--border);
-}
+.section-label { font-size:10px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:1.5px; }
+.section-line { flex:1; height:0.5px; background:var(--border); }
 
-/* КАРТОЧКИ ТОВАРОВ */
-.products-grid {
-  padding: 0 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
+.products { padding: 0 12px; display:flex; flex-direction:column; gap:10px; }
 
 .pcard {
   background: var(--card);
   border-radius: 16px;
   border: 0.5px solid var(--border);
   overflow: hidden;
-  box-shadow: 0 1px 8px rgba(44,26,14,0.06);
 }
-.pcard.hot {
-  border: 1.5px solid var(--border-gold);
-}
+.pcard.hot { border: 1.5px solid var(--gold); }
 
-/* ИЗОБРАЖЕНИЕ ТОВАРА */
-/* МЕНЯЙ: вместо .pcard-img-placeholder добавь <img> */
 .pcard-img {
-  width: 100%;
-  height: 140px;
-  overflow: hidden;
-  position: relative;
-}
-.pcard-img img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-  display: block;
-}
-.pcard-img-placeholder {
-  width: 100%; height: 100%;
+  width:100%; height:130px;
   background: var(--gold-light);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  gap:6px; position:relative;
 }
-.pcard-img-icon { font-size: 36px; opacity: 0.5; }
-.pcard-img-label {
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--gold);
-  text-align: center;
-  padding: 0 12px;
-}
-
+.pcard-icon { font-size:40px; }
+.pcard-img-label { font-size:11px; font-weight:600; color:var(--gold); text-align:center; padding:0 12px; }
 .hot-badge {
-  position: absolute;
-  top: 10px; left: 10px;
-  background: var(--gold);
-  color: #fff;
-  font-size: 9px;
-  font-weight: 700;
-  padding: 3px 10px;
-  border-radius: 20px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  position:absolute; top:10px; left:10px;
+  background:var(--gold); color:#fff;
+  font-size:9px; font-weight:700;
+  padding:3px 10px; border-radius:20px;
 }
 
-.pcard-body { padding: 14px; }
-
+.pcard-body { padding:14px; }
 .pcard-tag {
-  display: inline-block;
-  background: var(--tag-bg);
-  color: var(--tag-text);
-  font-size: 9px;
-  font-weight: 600;
-  padding: 3px 10px;
-  border-radius: 20px;
-  margin-bottom: 8px;
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
+  display:inline-block;
+  background:#FFF3E6; color:var(--gold);
+  font-size:9px; font-weight:600;
+  padding:3px 10px; border-radius:20px;
+  margin-bottom:8px; text-transform:uppercase;
 }
+.pcard-name { font-size:15px; font-weight:700; margin-bottom:6px; line-height:1.3; }
+.pcard-desc { font-size:12px; color:var(--muted); line-height:1.6; margin-bottom:12px; }
+.pcard-footer { display:flex; align-items:center; justify-content:space-between; }
+.pcard-price { font-size:22px; font-weight:800; }
+.pcard-old { font-size:12px; color:#C0AE9A; text-decoration:line-through; margin-left:6px; }
 
-.pcard-name {
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--text);
-  margin-bottom: 6px;
-  line-height: 1.3;
-}
-.pcard-desc {
-  font-size: 12px;
-  color: var(--muted);
-  line-height: 1.6;
-  margin-bottom: 12px;
-}
-.pcard-price-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.pcard-price {
-  font-size: 22px;
-  font-weight: 800;
-  color: var(--text);
-}
-.pcard-old-price {
-  font-size: 12px;
-  color: #C0AE9A;
-  text-decoration: line-through;
-  margin-left: 6px;
-}
 .btn-buy {
   background: var(--btn);
-  color: var(--btn-text);
+  color: #FAF7F2;
   border: none;
   border-radius: 10px;
-  padding: 10px 20px;
+  padding: 11px 20px;
   font-size: 13px;
   font-weight: 700;
   cursor: pointer;
-  transition: opacity 0.15s;
-  white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
 }
-.btn-buy:active { opacity: 0.75; }
+.btn-buy:active { opacity: 0.7; }
 
-/* БЕСПЛАТНО */
 .free-card {
   background: var(--card);
   margin: 0 12px;
@@ -275,36 +120,23 @@ body {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  box-shadow: 0 1px 8px rgba(44,26,14,0.06);
 }
-.free-tag {
-  font-size: 9px;
-  font-weight: 700;
-  color: var(--gold);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 4px;
-}
-.free-name {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text);
-  line-height: 1.35;
-}
+.free-tag { font-size:9px; font-weight:700; color:var(--gold); text-transform:uppercase; margin-bottom:4px; }
+.free-name { font-size:13px; font-weight:600; line-height:1.35; }
 .btn-free {
   background: var(--gold-light);
   color: var(--gold);
-  border: 1px solid var(--border-gold);
+  border: 1px solid var(--gold);
   border-radius: 10px;
   padding: 9px 14px;
   font-size: 12px;
   font-weight: 700;
   cursor: pointer;
   white-space: nowrap;
-  flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
 }
 
-/* ===== СТРАНИЦА ЗАКАЗА ===== */
+/* СТРАНИЦА ЗАКАЗА */
 .order-nav {
   background: var(--card);
   padding: 14px 16px;
@@ -320,21 +152,17 @@ body {
   background: var(--gold-light);
   border: none;
   color: var(--gold);
-  font-size: 18px;
-  width: 36px; height: 36px;
+  font-size: 20px;
+  width: 38px; height: 38px;
   border-radius: 50%;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 700;
-  flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
 }
-.order-nav-title {
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--text);
-}
+.order-title { font-size:16px; font-weight:700; }
 .order-body { padding: 16px; }
 
 .ocard {
@@ -344,60 +172,27 @@ body {
   padding: 16px;
   margin-bottom: 12px;
 }
-.ocard-label {
-  font-size: 10px;
-  font-weight: 600;
-  color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 10px;
-}
-.ocard-product-name {
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--text);
-  margin-bottom: 4px;
-}
-.ocard-amount {
-  font-size: 28px;
-  font-weight: 800;
-  color: var(--gold);
-}
+.ocard-label { font-size:10px; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:10px; }
+.ocard-name { font-size:15px; font-weight:700; margin-bottom:4px; }
+.ocard-amount { font-size:28px; font-weight:800; color:var(--gold); }
 
-.phone-label {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text);
-  margin-bottom: 8px;
+.how-title { font-size:10px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:12px; }
+.how-step { display:flex; gap:10px; align-items:flex-start; margin-bottom:10px; }
+.how-num {
+  width:22px; height:22px; border-radius:50%;
+  background:var(--gold-light); color:var(--gold);
+  font-size:11px; font-weight:800;
+  display:flex; align-items:center; justify-content:center; flex-shrink:0;
 }
-.phone-sub {
-  font-size: 11px;
-  color: var(--muted);
-  margin-bottom: 10px;
-  line-height: 1.5;
-}
-.phone-input {
-  width: 100%;
-  background: var(--bg);
-  border: 1.5px solid var(--border);
-  border-radius: 12px;
-  padding: 14px 16px;
-  color: var(--text);
-  font-size: 17px;
-  font-weight: 500;
-  outline: none;
-  transition: border-color 0.2s;
-}
-.phone-input:focus { border-color: var(--gold); }
-.phone-input::placeholder { color: #C0AE9A; }
+.how-text { font-size:12px; color:var(--muted); line-height:1.55; padding-top:3px; }
 
 .btn-kaspi {
   width: 100%;
-  background: var(--kaspi-red);
+  background: var(--kaspi);
   color: #fff;
   border: none;
   border-radius: 14px;
-  padding: 17px;
+  padding: 18px;
   font-size: 16px;
   font-weight: 800;
   cursor: pointer;
@@ -405,236 +200,128 @@ body {
   align-items: center;
   justify-content: center;
   gap: 10px;
-  margin-top: 14px;
-  letter-spacing: 0.3px;
-  transition: opacity 0.15s;
+  margin-bottom: 12px;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 .btn-kaspi:active { opacity: 0.85; }
-
-.how-box {
-  background: var(--card);
-  border-radius: 14px;
-  border: 0.5px solid var(--border);
-  padding: 14px 16px;
-  margin-top: 12px;
-}
-.how-title {
-  font-size: 10px;
-  font-weight: 700;
-  color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 12px;
-}
-.how-step {
-  display: flex;
-  gap: 10px;
-  align-items: flex-start;
-  margin-bottom: 10px;
-}
-.how-num {
-  width: 22px; height: 22px;
-  border-radius: 50%;
-  background: var(--gold-light);
-  color: var(--gold);
-  font-size: 11px;
-  font-weight: 800;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-.how-text {
-  font-size: 12px;
-  color: var(--muted);
-  line-height: 1.55;
-  padding-top: 3px;
-}
 </style>
 </head>
 <body>
 
-<!-- ===== СТРАНИЦА ГЛАВНАЯ ===== -->
-<div id="page-home" class="page active">
-
-  <!-- ШАПКА -->
+<!-- ГЛАВНАЯ -->
+<div id="home" class="page active">
   <div class="hero">
     <div class="hero-brand">Aspire</div>
-    <!-- МЕНЯЙ: заголовок -->
     <div class="hero-title">Расти<br>без хаоса</div>
-    <!-- МЕНЯЙ: подзаголовок -->
-    <div class="hero-sub">Закупки из Китая · маркетинг · AI-автоматизация<br>для владельцев бизнеса в Казахстане</div>
+    <div class="hero-sub">Закупки из Китая · маркетинг · AI · Казахстан</div>
   </div>
 
-  <!-- ФОТО РАЗДЕЛ -->
-  <!-- МЕНЯЙ: замени photo-placeholder на <img src="ссылка_на_фото"> -->
-  <div class="photos-row">
-    <div class="photo-item">
-      <!-- Вставь сюда: <img src="https://ссылка_на_фото_1.jpg"> -->
-      <div class="photo-placeholder">
-        <div class="photo-placeholder-icon">📸</div>
-        <div>Фото 1</div>
-      </div>
-    </div>
-    <div class="photo-item">
-      <div class="photo-placeholder">
-        <div class="photo-placeholder-icon">📸</div>
-        <div>Фото 2</div>
-      </div>
-    </div>
-    <div class="photo-item">
-      <div class="photo-placeholder">
-        <div class="photo-placeholder-icon">📸</div>
-        <div>Фото 3</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- СТАТИСТИКА -->
   <div class="stats-bar">
-    <div class="stats-num">7 лет · 2 магазина · клуб 100 участников · 3 поездки в Китай · Kaspi</div>
+    <div class="stats-num">7 лет · 2 магазина · клуб 100 участников · 3 поездки в Китай</div>
     <div class="stats-label">реального опыта за вашей спиной</div>
   </div>
 
-  <!-- ПРОДУКТЫ -->
   <div class="section-header">
     <div class="section-label">Мини-продукты</div>
     <div class="section-line"></div>
   </div>
 
-  <div class="products-grid">
+  <div class="products">
 
-    <!-- ТОВАР 1: AI-агент -->
     <div class="pcard hot">
       <div class="pcard-img">
-        <!-- МЕНЯЙ: <img src="ссылка_на_фото_ai_агента"> -->
-        <div class="pcard-img-placeholder">
-          <div class="pcard-img-icon">🤖</div>
-          <div class="pcard-img-label">AI-агент для контента</div>
-        </div>
+        <div class="pcard-icon">🤖</div>
+        <div class="pcard-img-label">AI-агент для контента</div>
         <div class="hot-badge">Хит</div>
       </div>
       <div class="pcard-body">
         <div class="pcard-tag">AI-автоматизация</div>
         <div class="pcard-name">AI-агент для контента с автопостингом</div>
         <div class="pcard-desc">Контент создаётся и публикуется в Telegram без вашего участия. Настраиваем под ваш бизнес — работает 24/7</div>
-        <div class="pcard-price-row">
-          <div>
-            <span class="pcard-price">20 990 тг</span>
-          </div>
+        <div class="pcard-footer">
+          <div><span class="pcard-price">20 990 тг</span></div>
           <button class="btn-buy" onclick="openOrder(1)">Купить</button>
         </div>
       </div>
     </div>
 
-    <!-- ТОВАР 2: База поставщиков -->
     <div class="pcard hot">
       <div class="pcard-img">
-        <!-- МЕНЯЙ: <img src="ссылка_на_фото_базы"> -->
-        <div class="pcard-img-placeholder">
-          <div class="pcard-img-icon">🇨🇳</div>
-          <div class="pcard-img-label">База 100 поставщиков Китай</div>
-        </div>
+        <div class="pcard-icon">🇨🇳</div>
+        <div class="pcard-img-label">База поставщиков Китай</div>
         <div class="hot-badge">Топ</div>
       </div>
       <div class="pcard-body">
         <div class="pcard-tag">Закупки из Китая</div>
         <div class="pcard-name">База 100 поставщиков Худжоу + Гуанчжоу</div>
-        <div class="pcard-desc">Включая спецпредложения на 30-40% ниже рынка. Найдены лично за 3 поездки — о них нигде не пишут</div>
-        <div class="pcard-price-row">
-          <div>
-            <span class="pcard-price">19 990 тг</span>
-            <span class="pcard-old-price">28 500</span>
-          </div>
+        <div class="pcard-desc">Включая спецпредложения на 30-40% ниже рынка. Найдены лично за 3 поездки</div>
+        <div class="pcard-footer">
+          <div><span class="pcard-price">19 990 тг</span><span class="pcard-old">28 500</span></div>
           <button class="btn-buy" onclick="openOrder(2)">Купить</button>
         </div>
       </div>
     </div>
 
-    <!-- ТОВАР 3: Открытие Kaspi -->
     <div class="pcard">
       <div class="pcard-img">
-        <!-- МЕНЯЙ: <img src="ссылка_на_фото_kaspi"> -->
-        <div class="pcard-img-placeholder">
-          <div class="pcard-img-icon">🛒</div>
-          <div class="pcard-img-label">Открытие Kaspi магазина</div>
-        </div>
+        <div class="pcard-icon">🛒</div>
+        <div class="pcard-img-label">Kaspi магазин под ключ</div>
       </div>
       <div class="pcard-body">
-        <div class="pcard-tag">Kaspi магазин</div>
+        <div class="pcard-tag">Kaspi</div>
         <div class="pcard-name">Открытие Kaspi магазина под ключ</div>
-        <div class="pcard-desc">Все нюансы: регистрация, оформление, первые товары, настройка — запустим ваш магазин с нуля</div>
-        <div class="pcard-price-row">
-          <div>
-            <span class="pcard-price">10 990 тг</span>
-          </div>
+        <div class="pcard-desc">Регистрация, оформление, первые товары — запустим ваш магазин с нуля</div>
+        <div class="pcard-footer">
+          <div><span class="pcard-price">10 990 тг</span></div>
           <button class="btn-buy" onclick="openOrder(3)">Купить</button>
         </div>
       </div>
     </div>
 
-    <!-- ТОВАР 4: Таргет -->
     <div class="pcard">
       <div class="pcard-img">
-        <!-- МЕНЯЙ: <img src="ссылка_на_фото_таргет"> -->
-        <div class="pcard-img-placeholder">
-          <div class="pcard-img-icon">🎯</div>
-          <div class="pcard-img-label">Таргетированная реклама</div>
-        </div>
+        <div class="pcard-icon">🎯</div>
+        <div class="pcard-img-label">Таргетированная реклама</div>
       </div>
       <div class="pcard-body">
         <div class="pcard-tag">Реклама</div>
         <div class="pcard-name">Урок по таргетированной рекламе</div>
-        <div class="pcard-desc">Как настроить рекламу самостоятельно — привлекать клиентов без агентств и переплат</div>
-        <div class="pcard-price-row">
-          <div>
-            <span class="pcard-price">5 990 тг</span>
-          </div>
+        <div class="pcard-desc">Как настроить рекламу самостоятельно — без агентств и переплат</div>
+        <div class="pcard-footer">
+          <div><span class="pcard-price">5 990 тг</span></div>
           <button class="btn-buy" onclick="openOrder(4)">Купить</button>
         </div>
       </div>
     </div>
 
-    <!-- ТОВАР 5: 1688 -->
     <div class="pcard">
       <div class="pcard-img">
-        <!-- МЕНЯЙ: <img src="ссылка_на_фото_1688"> -->
-        <div class="pcard-img-placeholder">
-          <div class="pcard-img-icon">📦</div>
-          <div class="pcard-img-label">Закупки на 1688</div>
-        </div>
+        <div class="pcard-icon">📦</div>
+        <div class="pcard-img-label">Закупки на 1688</div>
       </div>
       <div class="pcard-body">
         <div class="pcard-tag">Закупки</div>
         <div class="pcard-name">Мини-урок: закупки на 1688 без байера</div>
-        <div class="pcard-desc">За 1 час разберёшься как заказывать напрямую — без посредников и переплат 20-30%</div>
-        <div class="pcard-price-row">
-          <div>
-            <span class="pcard-price">2 990 тг</span>
-            <span class="pcard-old-price">4 900</span>
-          </div>
+        <div class="pcard-desc">За 1 час разберёшься как заказывать напрямую без посредников</div>
+        <div class="pcard-footer">
+          <div><span class="pcard-price">2 990 тг</span><span class="pcard-old">4 900</span></div>
           <button class="btn-buy" onclick="openOrder(5)">Купить</button>
         </div>
       </div>
     </div>
 
-    <!-- ТОВАР 6: Предметная съёмка -->
     <div class="pcard">
       <div class="pcard-img">
-        <!-- МЕНЯЙ: <img src="ссылка_на_фото_съёмки"> -->
-        <div class="pcard-img-placeholder">
-          <div class="pcard-img-icon">📷</div>
-          <div class="pcard-img-label">Предметная съёмка</div>
-        </div>
+        <div class="pcard-icon">📷</div>
+        <div class="pcard-img-label">Предметная съёмка</div>
       </div>
       <div class="pcard-body">
         <div class="pcard-tag">Съёмка</div>
         <div class="pcard-name">Предметная съёмка — обучение</div>
-        <div class="pcard-desc">Все нюансы: свет, фон, ракурсы, обработка. Снимай товары сама на телефон — как профессионал</div>
-        <div class="pcard-price-row">
-          <div>
-            <span class="pcard-price">3 990 тг</span>
-          </div>
+        <div class="pcard-desc">Свет, фон, ракурсы, обработка — снимай товары как профессионал на телефон</div>
+        <div class="pcard-footer">
+          <div><span class="pcard-price">3 990 тг</span></div>
           <button class="btn-buy" onclick="openOrder(6)">Купить</button>
         </div>
       </div>
@@ -642,7 +329,6 @@ body {
 
   </div>
 
-  <!-- БЕСПЛАТНО -->
   <div class="section-header">
     <div class="section-label">Бесплатно</div>
     <div class="section-line"></div>
@@ -650,140 +336,83 @@ body {
   <div class="free-card">
     <div>
       <div class="free-tag">Подарок</div>
-      <!-- МЕНЯЙ: название бесплатного материала -->
       <div class="free-name">5 ошибок при первой<br>закупке из Китая</div>
     </div>
     <button class="btn-free" onclick="getFree()">Получить</button>
   </div>
-
 </div>
 
-<!-- ===== СТРАНИЦА ЗАКАЗА ===== -->
-<div id="page-order" class="page">
+<!-- ЗАКАЗ -->
+<div id="order" class="page">
   <div class="order-nav">
     <button class="back-btn" onclick="goBack()">←</button>
-    <div class="order-nav-title">Оформление заказа</div>
+    <div class="order-title">Оформление заказа</div>
   </div>
   <div class="order-body">
     <div class="ocard">
       <div class="ocard-label">Ваш заказ</div>
-      <div class="ocard-product-name" id="order-name">—</div>
-      <div class="ocard-amount" id="order-amount">—</div>
+      <div class="ocard-name" id="order-name"></div>
+      <div class="ocard-amount" id="order-amount"></div>
     </div>
     <div class="ocard">
-      <div class="phone-label">Как оплатить</div>
-      <div class="phone-sub">Нажмите кнопку ниже — откроется Kaspi Pay. Оплатите удобным способом: с Kaspi Gold, в рассрочку или кредит.</div>
-    </div>
-    <button class="btn-kaspi" onclick="payWithKaspi()">
-      <span style="font-size:20px;font-weight:900;">K</span>
-      Оплатить через Kaspi
-    </button>
-    <div class="how-box">
-      <div class="how-title">Как это работает</div>
+      <div class="how-title">Как оплатить</div>
       <div class="how-step">
         <div class="how-num">1</div>
-        <div class="how-text">Нажмите "Оплатить через Kaspi" — откроется страница оплаты</div>
+        <div class="how-text">Нажмите кнопку "Оплатить через Kaspi" ниже</div>
       </div>
       <div class="how-step">
         <div class="how-num">2</div>
-        <div class="how-text">Оплатите удобным способом: Kaspi Gold, рассрочка или кредит</div>
+        <div class="how-text">Откроется страница Kaspi Pay — оплатите удобным способом</div>
       </div>
       <div class="how-step">
         <div class="how-num">3</div>
-        <div class="how-text">После оплаты закройте Kaspi и вернитесь в бот — материал придёт автоматически</div>
+        <div class="how-text">После оплаты вернитесь в бот — материал придёт автоматически</div>
       </div>
     </div>
+    <button class="btn-kaspi" onclick="payNow()">
+      <span style="font-size:22px;font-weight:900">K</span>
+      Оплатить через Kaspi
+    </button>
   </div>
 </div>
 
 <script>
-// ============================
-// ТОВАРЫ — меняй названия и цены
-// ============================
+window.Telegram.WebApp.ready();
+window.Telegram.WebApp.expand();
+
 const PRODUCTS = {
-  1: { name: "AI-агент для контента с автопостингом", price: 20990 },
-  2: { name: "База 100 поставщиков Худжоу + Гуанчжоу", price: 19990 },
-  3: { name: "Открытие Kaspi магазина под ключ", price: 10990 },
-  4: { name: "Урок по таргетированной рекламе", price: 5990 },
-  5: { name: "Мини-урок: закупки на 1688 без байера", price: 2990 },
-  6: { name: "Предметная съёмка — обучение", price: 3990 }
+  1: { name: "AI-агент для контента с автопостингом", price: "20 990 тг" },
+  2: { name: "База 100 поставщиков Худжоу + Гуанчжоу", price: "19 990 тг" },
+  3: { name: "Открытие Kaspi магазина под ключ", price: "10 990 тг" },
+  4: { name: "Урок по таргетированной рекламе", price: "5 990 тг" },
+  5: { name: "Мини-урок: закупки на 1688 без байера", price: "2 990 тг" },
+  6: { name: "Предметная съёмка — обучение", price: "3 990 тг" }
 };
 
-// ============================
-// ЗАМЕНИ НА СВОЙ ID МАГАЗИНА KASPI PAY
-// Найди в Kaspi Pay → Настройки → ID магазина
-// ============================
-const KASPI_SHOP_ID = "17486795";
-
-let currentProduct = null;
-
-const tg = window.Telegram?.WebApp || null;
-try {
-  if (tg) { 
-    tg.ready(); 
-    tg.expand();
-    tg.enableClosingConfirmation();
-  }
-} catch(e) { console.log('TG init:', e); }
+let current = null;
 
 function openOrder(id) {
-  currentProduct = { id, ...PRODUCTS[id] };
-  document.getElementById("order-name").textContent = currentProduct.name;
-  document.getElementById("order-amount").textContent =
-    currentProduct.price.toLocaleString("ru-RU") + " тг";
-  document.getElementById("phone-input").value = "";
-  document.getElementById("page-home").classList.remove("active");
-  document.getElementById("page-order").classList.add("active");
+  current = PRODUCTS[id];
+  document.getElementById("order-name").textContent = current.name;
+  document.getElementById("order-amount").textContent = current.price;
+  document.getElementById("home").classList.remove("active");
+  document.getElementById("order").classList.add("active");
   window.scrollTo(0, 0);
 }
 
 function goBack() {
-  document.getElementById("page-order").classList.remove("active");
-  document.getElementById("page-home").classList.add("active");
+  document.getElementById("order").classList.remove("active");
+  document.getElementById("home").classList.add("active");
   window.scrollTo(0, 0);
 }
 
-function payWithKaspi() {
-  if (!currentProduct) return;
-  // Открываем Kaspi Pay ссылку
-  try {
-    window.open("https://pay.kaspi.kz/pay/37q8jsak", "_blank");
-  } catch(e) {
-    window.location.href = "https://pay.kaspi.kz/pay/37q8jsak";
-  }
-  try {
-    if (tg && tg.sendData) {
-      tg.sendData(JSON.stringify({
-        action: "payment_started",
-        product: currentProduct.name,
-        amount: currentProduct.price
-      }));
-    }
-  } catch(e) { console.log('sendData:', e); }
+function payNow() {
+  window.open("https://pay.kaspi.kz/pay/37q8jsak", "_blank");
 }
 
 function getFree() {
-  try {
-    if (tg && tg.sendData) {
-      tg.sendData(JSON.stringify({ action: "get_free" }));
-    }
-  } catch(e) {}
-  alert("Закройте это окно — материал придёт в бот!");
+  alert("Закройте это окно и напишите боту — материал придёт!");
 }
-
-// Форматирование телефона
-const phoneInput = document.getElementById("phone-input");
-if (phoneInput) phoneInput.addEventListener("input", function(e) {
-  let v = e.target.value.replace(/\D/g, "").slice(0, 11);
-  if (!v) { e.target.value = ""; return; }
-  let r = "+" + v[0];
-  if (v.length > 1) r += " (" + v.slice(1, 4);
-  if (v.length >= 4) r += ") " + v.slice(4, 7);
-  if (v.length >= 7) r += "-" + v.slice(7, 9);
-  if (v.length >= 9) r += "-" + v.slice(9, 11);
-  e.target.value = r;
-});
-} // end if phoneInput
 </script>
 </body>
 </html>
