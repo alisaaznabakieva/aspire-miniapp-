@@ -717,8 +717,14 @@ const KASPI_SHOP_ID = "17486795";
 
 let currentProduct = null;
 
-const tg = window.Telegram?.WebApp;
-if (tg) { tg.ready(); tg.expand(); }
+const tg = window.Telegram?.WebApp || null;
+try {
+  if (tg) { 
+    tg.ready(); 
+    tg.expand();
+    tg.enableClosingConfirmation();
+  }
+} catch(e) { console.log('TG init:', e); }
 
 function openOrder(id) {
   currentProduct = { id, ...PRODUCTS[id] };
@@ -740,25 +746,34 @@ function goBack() {
 function payWithKaspi() {
   if (!currentProduct) return;
   // Открываем Kaspi Pay ссылку
-  window.open("https://pay.kaspi.kz/pay/37q8jsak", "_blank");
-  if (tg) {
-    tg.sendData(JSON.stringify({
-      action: "payment_started",
-      product: currentProduct.name,
-      amount: currentProduct.price
-    }));
+  try {
+    window.open("https://pay.kaspi.kz/pay/37q8jsak", "_blank");
+  } catch(e) {
+    window.location.href = "https://pay.kaspi.kz/pay/37q8jsak";
   }
+  try {
+    if (tg && tg.sendData) {
+      tg.sendData(JSON.stringify({
+        action: "payment_started",
+        product: currentProduct.name,
+        amount: currentProduct.price
+      }));
+    }
+  } catch(e) { console.log('sendData:', e); }
 }
 
 function getFree() {
-  if (tg) {
-    tg.sendData(JSON.stringify({ action: "get_free" }));
-  }
+  try {
+    if (tg && tg.sendData) {
+      tg.sendData(JSON.stringify({ action: "get_free" }));
+    }
+  } catch(e) {}
   alert("Закройте это окно — материал придёт в бот!");
 }
 
 // Форматирование телефона
-document.getElementById("phone-input").addEventListener("input", function(e) {
+const phoneInput = document.getElementById("phone-input");
+if (phoneInput) phoneInput.addEventListener("input", function(e) {
   let v = e.target.value.replace(/\D/g, "").slice(0, 11);
   if (!v) { e.target.value = ""; return; }
   let r = "+" + v[0];
@@ -768,6 +783,7 @@ document.getElementById("phone-input").addEventListener("input", function(e) {
   if (v.length >= 9) r += "-" + v.slice(9, 11);
   e.target.value = r;
 });
+} // end if phoneInput
 </script>
 </body>
 </html>
