@@ -968,11 +968,7 @@ function payKaspi(){
     : null;
 
   if(chatId){
-    const text = encodeURIComponent(
-      '🛒 Клиент переходит к оплате\n\n' +
-      '📦 Продукт: ' + currentProduct + '\n' +
-      '💳 Переход на Kaspi Pay'
-    );
+    const text = encodeURIComponent(currentProduct);
     fetch('https://api.telegram.org/bot' + BOT_TOKEN + '/sendMessage?chat_id=' + chatId + '&text=' + text)
       .catch(e => console.log('TG notify error:', e));
   }
