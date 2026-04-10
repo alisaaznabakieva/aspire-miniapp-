@@ -969,7 +969,7 @@ function payKaspi(){
 
   if(chatId){
     const text = encodeURIComponent(currentProduct);
-    fetch('https://api.telegram.org/bot' + BOT_TOKEN + '/sendMessage?chat_id=1022032352&text=' + text)
+    fetch('https://api.telegram.org/bot' + BOT_TOKEN + '/sendMessage?chat_id=' + chatId + '&text=' + text)
       .catch(e => console.log('TG notify error:', e));
   }
 
