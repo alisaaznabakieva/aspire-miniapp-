@@ -961,16 +961,19 @@ function openKaspiModal(name, priceNew, priceOld){
 function payKaspi(){
   const url = 'https://pay.kaspi.kz/pay/37q8jsak';
 
-  // Отправляем сообщение боту через Telegram
-  const BOT_TOKEN = '8482784218:AAGcNgz7a4e_69hYAn9lByApf3e0rnbxkb0';
   const chatId = tg && tg.initDataUnsafe && tg.initDataUnsafe.user
     ? tg.initDataUnsafe.user.id
     : null;
 
   if(chatId){
-    const text = encodeURIComponent(currentProduct);
-    fetch('https://api.telegram.org/bot' + BOT_TOKEN + '/sendMessage?chat_id=' + chatId + '&text=' + text)
-      .catch(e => console.log('TG notify error:', e));
+    fetch('https://hook.eu2.make.com/ia49n0hgo9m0k3f6sukyjbgjwgo8ckqx', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        chat_id: String(chatId),
+        product: currentProduct
+      })
+    }).catch(e => console.log('Webhook error:', e));
   }
 
   // Открываем Kaspi
